@@ -21,6 +21,7 @@ var hour17_ID = $("#hour-17");
 
 //VARIABLES
 var militaryClock = dayjs().format("H");
+//var militaryClock = 17
 //console.log(typeof militaryClock);
 var hour9_val = hour9_ID.text();
 var hour10_val = hour10_ID.text();
@@ -44,8 +45,8 @@ var plannerHours = [
   hour16_ID,
   hour17_ID 
 ];
-
-var numbersArray = [];
+//array of numbers corresponding to the time present in each div with an hourI_D
+var numbersArray = [9,10,11,12,13,14,15,16,17];
 
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
@@ -66,37 +67,22 @@ $(function () {
   
   console.log("current military time: " + Number(militaryClock));
 
-  for(var x = 0; x < plannerHours.length; x++){
-    console.log(plannerHours[x].text());
-
-    if(plannerHours[x].text() === "1" && militaryClock > 12){
-      militaryClock -= 12;
-    } else if(plannerHours[x].text() === "2" && militaryClock > 12){
-      militaryClock -= 12;
-    } else if(plannerHours[x].text() === "3" && militaryClock > 12){
-      militaryClock -= 12;
-    } else if(plannerHours[x].text() === "4" && militaryClock > 12){
-      militaryClock -= 12;
-    } else if(plannerHours[x].text() === "5" && militaryClock > 12){
-      militaryClock -= 12;
+  for(var x = 0; x < numbersArray.length; x++){
+    /*if military time is larger than the number at numbersArray[x]
+          set the class of those elements in the correseponding plannerHours[] to "future"
+      if military time is less than the number at numbersArray[x]
+          set the class of those elements in the correseponding plannerHours[] to "past" 
+      else military time is === to the number at numbersArray[x]
+          set the class of those elements in the correseponding plannerHours[] to "present"
+    */
+    if(militaryClock < numbersArray[x]){
+      plannerHours[x].parent().parent().attr("class", "row time-block future");
+    } else if(militaryClock > numbersArray[x]){
+      plannerHours[x].parent().parent().attr("class", "row time-block past");
     } else {
-      militaryClock = militaryClock;
+      plannerHours[x].parent().parent().attr("class", "row time-block present");
     }
-
-    if(plannerHours[x].text() < militaryClock) {
-       plannerHours[x].parent().parent().attr("class", "row time-block past");
-       console.log("past time class changed");
-    } else if(plannerHours[x].text() > militaryClock) {
-       plannerHours[x].parent().parent().attr("class", "row time-block future");
-       console.log("future time class chagned");
-    } else {
-       plannerHours[x].parent().parent().attr("class", "row time-block present");
-       console.log("current time class changed");
-    }
-
-    //console.log(plannerHours[x].text());
   }
-
 
   //
   // TODO: Add code to get any user input that was saved in localStorage and set
