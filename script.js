@@ -17,21 +17,10 @@ var hour14_ID = $("#hour-14");
 var hour15_ID = $("#hour-15");
 var hour16_ID = $("#hour-16");
 var hour17_ID = $("#hour-17");
-//console.log(typeof hour10.text());
 
 //VARIABLES
 var militaryClock = dayjs().format("H");
-//var militaryClock = 17
-//console.log(typeof militaryClock);
-var hour9_val = hour9_ID.text();
-var hour10_val = hour10_ID.text();
-var hour11_val = hour11_ID.text();
-var hour12_val = hour12_ID.text();
-var hour13_val = hour13_ID.text();
-var hour14_val = hour14_ID.text();
-var hour15_val = hour15_ID.text();
-var hour16_val = hour16_ID.text();
-var hour17_val = hour17_ID.text();
+//var militaryClock = 13
 
 //ARRAYS
 var plannerHours = [
