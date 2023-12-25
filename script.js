@@ -1,3 +1,52 @@
+/* THE PLAN
+--1. curent day and time displayed at top of page (working clock)
+2. each time block is color coded to indicate past, present, or future 
+(changes dynamically with time)
+--3. clicking in a time block lets user type
+4. when save button is clicked, the text in THAT block is saved to local storage
+5. on page reload, saved events persist
+*/
+
+//ELEMENT GRABS
+var hour9_ID = $("#hour-9");
+var hour10_ID = $("#hour-10");
+var hour11_ID = $("#hour-11");
+var hour12_ID = $("#hour-12");
+var hour13_ID = $("#hour-13");
+var hour14_ID = $("#hour-14");
+var hour15_ID = $("#hour-15");
+var hour16_ID = $("#hour-16");
+var hour17_ID = $("#hour-17");
+//console.log(typeof hour10.text());
+
+//VARIABLES
+var militaryClock = dayjs().format("H");
+//console.log(typeof militaryClock);
+var hour9_val = hour9_ID.text();
+var hour10_val = hour10_ID.text();
+var hour11_val = hour11_ID.text();
+var hour12_val = hour12_ID.text();
+var hour13_val = hour13_ID.text();
+var hour14_val = hour14_ID.text();
+var hour15_val = hour15_ID.text();
+var hour16_val = hour16_ID.text();
+var hour17_val = hour17_ID.text();
+
+//ARRAYS
+var plannerHours = [
+  hour9_ID,
+  hour10_ID,
+  hour11_ID,
+  hour12_ID,
+  hour13_ID,
+  hour14_ID,
+  hour15_ID,
+  hour16_ID,
+  hour17_ID 
+];
+
+var numbersArray = [];
+
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
@@ -14,10 +63,56 @@ $(function () {
   // attribute of each time-block be used to conditionally add or remove the
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
+  
+  console.log("current military time: " + Number(militaryClock));
+
+  for(var x = 0; x < plannerHours.length; x++){
+    console.log(plannerHours[x].text());
+
+    if(plannerHours[x].text() === "1" && militaryClock > 12){
+      militaryClock -= 12;
+    } else if(plannerHours[x].text() === "2" && militaryClock > 12){
+      militaryClock -= 12;
+    } else if(plannerHours[x].text() === "3" && militaryClock > 12){
+      militaryClock -= 12;
+    } else if(plannerHours[x].text() === "4" && militaryClock > 12){
+      militaryClock -= 12;
+    } else if(plannerHours[x].text() === "5" && militaryClock > 12){
+      militaryClock -= 12;
+    } else {
+      militaryClock = militaryClock;
+    }
+
+    if(plannerHours[x].text() < militaryClock) {
+       plannerHours[x].parent().parent().attr("class", "row time-block past");
+       console.log("past time class changed");
+    } else if(plannerHours[x].text() > militaryClock) {
+       plannerHours[x].parent().parent().attr("class", "row time-block future");
+       console.log("future time class chagned");
+    } else {
+       plannerHours[x].parent().parent().attr("class", "row time-block present");
+       console.log("current time class changed");
+    }
+
+    //console.log(plannerHours[x].text());
+  }
+
+
   //
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
-  // TODO: Add code to display the current date in the header of the page.
+
+  //working timer which displays current day, date, and time at top of page
+  function displayDateTime() {
+    timer = setInterval(function(){
+      var today = dayjs();
+      $("#currentDay").text(today.format("ddd, MMM/D/YYYY, hh:mm:ss"));
+    },1000)
+  }
+  displayDateTime();
+
 });
+
+
