@@ -105,20 +105,21 @@ $(function () {
     //store all new data in localStorage under storedData
     localStorage.setItem("storedData", JSON.stringify(updatedDate));
 
-    //renderData()
+    renderData()
   })
 
-  // function renderData() {
-  //   var savedContent = JSON.parse(localStorage.getItem("storedData"));
+  function renderData() {
+    var savedContent = JSON.parse(localStorage.getItem("storedData"));
+    //var thisDescription = $("description")
 
-  //   for(var x = 0; x < plannerHours.length; x++){
-  //     description.val("");
-  //     console.log(savedContent[x].id);
-  //     if(savedContent[x].id == plannerHours[x]) {
-  //       this.description.val() = savedContent[x].text;
-  //     }
-  //   }
-  // }
+    for(var x = 0; x < plannerHours.length; x++){
+      description.val("");
+      //console.log(savedContent[x].id);
+      if(plannerHours[x].toString() === savedContent[x].id) {
+        console.log(savedContent[x].id);
+      }
+    }
+  }
   
   //dynamically update BG color depending on if time block is past, present, or future
   //console.log("current military time: " + Number(militaryClock));
