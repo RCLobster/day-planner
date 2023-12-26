@@ -60,9 +60,39 @@ $(function () {
   save_BTN.on("click", function(){
     //grab a reference to the textarea attached to the saveBTN that was clicked
     var contentToSave = $(this).prev();
-    console.log(contentToSave.val());
+    //grab a reference to the id of the span element attached to the saveBTN that was clicked
+    var contentToSave_ID = $(this).siblings(".hour").find("span").attr("id");
+    //console.log(contentToSave.val());
+    //console.log(contentToSave_ID);
 
+    //create an object to hold the id and data associated with clicked button
+    var newData = {
+      id: contentToSave_ID,
+      text: contentToSave.val()
+    }
+    console.log(newData);
+    //grab whatever is currently stored and set it equal to savedContent
+    var savedContent = JSON.parse(localStorage.getItem("storedData"));
+    
+    //line 83 was throwing an error about not being able to push to an object which is not an array
+    //the below if statment ensures that savedContent is always treated as an array, if not it will
+    //empty the array before pushing newData into it
+    if(!Array.isArray(savedContent)) {
+      savedContent = [];
+    }
+    
+    //push any text and the id into the savedContent array
+    savedContent.push(newData);
+
+    //store the text and id in localStorage under storedData
+    localStorage.setItem("storedData", JSON.stringify(savedContent));
+
+    //renderData()
   })
+
+  // function renderData() {
+
+  // }
   
   //dynamically update BG color depending on if time block is past, present, or future
   //console.log("current military time: " + Number(militaryClock));
