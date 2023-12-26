@@ -63,7 +63,7 @@ $(function () {
     //grab a reference to the id of the span element attached to the saveBTN that was clicked
     var contentToSave_ID = $(this).siblings(".hour").find("span").attr("id");
     //console.log(contentToSave.val());
-    //console.log(contentToSave_ID);
+    console.log(typeof contentToSave_ID);
 
     //create an object to hold the id and data associated with clicked button
     var newData = {
@@ -85,13 +85,39 @@ $(function () {
     savedContent.push(newData);
 
     //store the text and id in localStorage under storedData
-    localStorage.setItem("storedData", JSON.stringify(savedContent));
+    //localStorage.setItem("storedData", JSON.stringify(savedContent));
+
+    var updatedDate = [];
+    //check if the id of current newData already exists, if so, only update the text value
+    //if not, add the id and text value
+    for (var i = 0; i < savedContent.length; i++) {
+      if (savedContent[i].id === newData.id){
+        savedContent[i].text = newData.text;
+      } else {
+        updatedDate.push(savedContent[i]);
+      }
+    }
+
+    if(!updatedDate.some(item => item.id === newData.id)) {
+      updatedDate.push(newData);
+    }
+
+    //store all new data in localStorage under storedData
+    localStorage.setItem("storedData", JSON.stringify(updatedDate));
 
     //renderData()
   })
 
   // function renderData() {
+  //   var savedContent = JSON.parse(localStorage.getItem("storedData"));
 
+  //   for(var x = 0; x < plannerHours.length; x++){
+  //     description.val("");
+  //     console.log(savedContent[x].id);
+  //     if(savedContent[x].id == plannerHours[x]) {
+  //       this.description.val() = savedContent[x].text;
+  //     }
+  //   }
   // }
   
   //dynamically update BG color depending on if time block is past, present, or future
