@@ -116,9 +116,9 @@ $(function () {
     var savedContent = JSON.parse(localStorage.getItem("storedData"));
     //reset the value of each text area before rendering in updated content
     description.val("");
-
+  
     //console.log(savedContent);
-
+  
     //I want to loop through each value in plannerHours[] regardless of if any data is present
     plannerHours.forEach(function(hourElement, index) {
       //for each element, grab the id associated with it
@@ -135,27 +135,28 @@ $(function () {
       }
     })
   }
-  renderData();
-
-
+  
+  
   //dynamically update BG color depending on if time block is past, present, or future
   //console.log("current military time: " + Number(militaryClock));
   for(var x = 0; x < numbersArray.length; x++){
     /*if military time is larger than the number at numbersArray[x]
-          set the class of those elements in the correseponding plannerHours[] to "future"
-      if military time is less than the number at numbersArray[x]
-          set the class of those elements in the correseponding plannerHours[] to "past" 
-      else military time is === to the number at numbersArray[x]
-          set the class of those elements in the correseponding plannerHours[] to "present"
+    set the class of those elements in the correseponding plannerHours[] to "future"
+    if military time is less than the number at numbersArray[x]
+    set the class of those elements in the correseponding plannerHours[] to "past" 
+    else military time is === to the number at numbersArray[x]
+    set the class of those elements in the correseponding plannerHours[] to "present"
     */
-    if(militaryClock < numbersArray[x]){
-      plannerHours[x].parent().parent().attr("class", "row time-block future");
+   if(militaryClock < numbersArray[x]){
+     plannerHours[x].parent().parent().attr("class", "row time-block future");
     } else if(militaryClock > numbersArray[x]){
       plannerHours[x].parent().parent().attr("class", "row time-block past");
     } else {
       plannerHours[x].parent().parent().attr("class", "row time-block present");
     }
+    
   }
+  
   //working timer which displays current day, date, and time at top of page
   function displayDateTime() {
     timer = setInterval(function(){
@@ -164,7 +165,7 @@ $(function () {
     },1000)
   }
   displayDateTime();
-
+  renderData();
 });
 
 
