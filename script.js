@@ -18,7 +18,7 @@ var hour15_ID = $("#hour-15");
 var hour16_ID = $("#hour-16");
 var hour17_ID = $("#hour-17");
 
-var description = $(".description");
+
 var save_BTN = $(".saveBtn");
 
 //VARIABLES
@@ -56,6 +56,7 @@ $(function () {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
+
   
   save_BTN.on("click", function(){
     //grab a reference to the textarea attached to the saveBTN that was clicked
@@ -63,14 +64,14 @@ $(function () {
     //grab a reference to the id of the span element attached to the saveBTN that was clicked
     var contentToSave_ID = $(this).siblings(".hour").find("span").attr("id");
     //console.log(contentToSave.val());
-    console.log(typeof contentToSave_ID);
+    //console.log(typeof contentToSave_ID);
 
     //create an object to hold the id and data associated with clicked button
     var newData = {
       id: contentToSave_ID,
       text: contentToSave.val()
     }
-    console.log(newData);
+    //console.log(newData);
     //grab whatever is currently stored and set it equal to savedContent
     var savedContent = JSON.parse(localStorage.getItem("storedData"));
     
@@ -109,18 +110,34 @@ $(function () {
   })
 
   function renderData() {
+    //get a reference to every element with class .description
+    var description = $(".description");
+    //pull out my data from localStorage and save it in a var
     var savedContent = JSON.parse(localStorage.getItem("storedData"));
-    //var thisDescription = $("description")
+    //reset the value of each text area before rendering in updated content
+    description.val("");
 
-    for(var x = 0; x < plannerHours.length; x++){
-      description.val("");
-      //console.log(savedContent[x].id);
-      if(plannerHours[x].toString() === savedContent[x].id) {
-        console.log(savedContent[x].id);
+    //console.log(savedContent);
+
+    //I want to loop through each value in plannerHours[] regardless of if any data is present
+    plannerHours.forEach(function(hourElement, index) {
+      //for each element, grab the id associated with it
+      var currID = hourElement.attr("id");
+      //look through my savedContent from localStorage and find an object with a matching id
+      var matchingObject = savedContent.find(function(item) {
+        //return that id value if it finds a match
+        return item.id === currID;
+      });
+      //if an id from localStorage matches an id in plannerHours[]...
+      if(matchingObject) {
+        //update the textarea box associated with that id with the text from localStorage
+        description.eq(index).val(matchingObject.text);
       }
-    }
+    })
   }
-  
+  renderData();
+
+
   //dynamically update BG color depending on if time block is past, present, or future
   //console.log("current military time: " + Number(militaryClock));
   for(var x = 0; x < numbersArray.length; x++){
